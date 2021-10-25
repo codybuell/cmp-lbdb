@@ -8,7 +8,11 @@ local default_blacklist = {
 
 -- grab user defined blacklist
 local c = config.get_source_config('lbdb')
-local user_bl = utils.get_paths(c, {'blacklist'})
+
+-- fail gracefully if plugin is sourced but not configured as a source in users cmp.setup
+if c ~= nil then
+  user_bl = utils.get_paths(c, {'blacklist'})
+end
 
 -- return user blacklist if set, else default
 if user_bl ~= nil then
