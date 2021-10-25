@@ -1,4 +1,4 @@
-local utils  = require'compe_lbdb.utils'
+local utils  = require'cmp_lbdb.utils'
 local config = require'cmp.config'
 
 -- define a reasonable default blacklist

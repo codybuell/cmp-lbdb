@@ -86,15 +86,15 @@ utils.get_contacts = function(blacklist)
 end
 
 utils.build_cmp_table = function(source, completion)
-  local compe_table = {}
+  local cmp_table = {}
   for _,v in pairs(source) do
-    table.insert(compe_table, {
+    table.insert(cmp_table, {
       label = v[completion],       -- what to spit out on completion
       detail = v['meta'],          -- side popout to show additional info no selected item
       -- kind = cmp.lsp.CompletionItemKind.Snippet,
     })
   end
-  return compe_table
+  return cmp_table
 end
 
 utils.in_header = function()

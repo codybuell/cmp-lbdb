@@ -7,10 +7,10 @@ local blacklist = require'cmp_lbdb.blacklist'
 ------------------
 
 local lbdb_email, lbdb_name = utils.get_contacts(blacklist)
-local compe_names    = utils.build_cmp_table(lbdb_name, 'name')
-local compe_emails   = utils.build_cmp_table(lbdb_email, 'email')
-local compe_contacts = utils.build_cmp_table(lbdb_email, 'mstring')
-local full_set       = utils.table_concatenate(compe_names, compe_emails)
+local cmp_names    = utils.build_cmp_table(lbdb_name, 'name')
+local cmp_emails   = utils.build_cmp_table(lbdb_email, 'email')
+local cmp_contacts = utils.build_cmp_table(lbdb_email, 'mstring')
+local full_set     = utils.table_concatenate(cmp_names, cmp_emails)
 
 --------------------
 --  source funcs  --
@@ -33,7 +33,7 @@ end
 function source.complete(_, _, callback)
   if utils.in_header() then
     callback({
-      items = compe_contacts
+      items = cmp_contacts
     })
   else
     callback({
