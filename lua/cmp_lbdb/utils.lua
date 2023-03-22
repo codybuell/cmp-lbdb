@@ -12,11 +12,13 @@ utils.get_paths = function(root, paths)
 end
 
 utils.parse_meta = function(meta_raw)
-  local date = meta_raw:match('%d+-%d+-%d+ %d+:%d+')
-  if date then
-    return 'Last seen: ' .. meta_raw
-  else
-    return 'Sourced from: ' .. meta_raw
+  if meta_raw then
+    local date = meta_raw:match('%d+-%d+-%d+ %d+:%d+')
+    if date then
+      return 'Last seen: ' .. meta_raw
+    else
+      return 'Sourced from: ' .. meta_raw
+    end
   end
 end
 
