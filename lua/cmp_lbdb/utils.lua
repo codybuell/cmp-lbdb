@@ -1,5 +1,28 @@
 local utils = {}
 
+utils.get_blacklist = function()
+    -- define a reasonable default blacklist
+    local default_blacklist = {
+        '.*not?.?reply.*'             -- variations of noreply, no-reply do-not-reply...
+    }
+
+    -- grab user defined blacklist
+    local c = require'cmp.config'.get_source_config('lbdb')
+    local user_bl
+
+    -- fail gracefully if plugin is sourced but not configured as a source in users cmp.setup
+    if c ~= nil then
+        user_bl = utils.get_paths(c, {'blacklist'})
+    end
+
+    -- return user blacklist if set, else default
+    if user_bl ~= nil then
+        return user_bl
+    else
+        return default_blacklist
+    end
+end
+
 utils.get_paths = function(root, paths)
 	local c = root
 	for _, path in ipairs(paths) do
@@ -113,6 +136,15 @@ utils.table_concatenate = function(t1, t2)
         t1[#t1+1] = t2[i]
     end
     return t1
+end
+
+utils.build_tables = function()
+    local lbdb_email, lbdb_name = utils.get_contacts(utils.get_blacklist())
+    local cmp_names    = utils.build_cmp_table(lbdb_name, 'name')
+    local cmp_emails   = utils.build_cmp_table(lbdb_email, 'email')
+    local cmp_contacts = utils.build_cmp_table(lbdb_email, 'mstring')
+    local full_set     = utils.table_concatenate(cmp_names, cmp_emails)
+    return cmp_contacts, full_set
 end
 
 return utils
