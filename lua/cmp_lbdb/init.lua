@@ -1,16 +1,12 @@
 local source = {}
 local utils = require'cmp_lbdb.utils'
-local blacklist = require'cmp_lbdb.blacklist'
 
 ------------------
 --  query lbdb  --
 ------------------
 
-local lbdb_email, lbdb_name = utils.get_contacts(blacklist)
-local cmp_names    = utils.build_cmp_table(lbdb_name, 'name')
-local cmp_emails   = utils.build_cmp_table(lbdb_email, 'email')
-local cmp_contacts = utils.build_cmp_table(lbdb_email, 'mstring')
-local full_set     = utils.table_concatenate(cmp_names, cmp_emails)
+local cmp_contacts = nil
+local full_set     = nil
 
 --------------------
 --  source funcs  --
@@ -31,6 +27,9 @@ function source.is_available()
 end
 
 function source.complete(_, _, callback)
+  if not cmp_contacts then
+    cmp_contacts, full_set = utils.build_tables()
+  end
   if utils.in_header() then
     callback({
       items = cmp_contacts
