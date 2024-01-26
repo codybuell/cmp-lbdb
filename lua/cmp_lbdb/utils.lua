@@ -72,7 +72,6 @@ utils.get_contacts = function(blacklist)
   local first = true
 
   -- query lbdbq and loop through lines
-  -- TODO: This is blocking and runs at startup. See if it can run async.
   local lbdbq = io.popen("lbdbq . 2>/dev/null")
   if lbdbq then
     for contact in lbdbq:lines() do
