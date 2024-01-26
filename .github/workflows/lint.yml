@@ -16,6 +16,7 @@ jobs:
       - uses: JohnnyMorganz/stylua-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          version: v3.0.0
           args: --check .
       - uses: Jayrgo/luacheck-action@v1
         with:
