@@ -46,7 +46,7 @@ require('cmp').setup({
     -- snip...
     {
       name = 'lbdb',
-      filetypes = { 'mail', 'markdown', 'gitconfig' }  -- defaults to mail & markdown
+      filetypes = { 'mail', 'markdown', 'gitconfig' }
       blacklist = {
         'user@host.com',
         '.*noreply.*',
