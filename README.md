@@ -11,14 +11,17 @@ Installation
 Use your favorite plugin manager:
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
+
   ```vim
   Plug 'codybuell/cmp-lbdb'
   ```
 - [pathogen](https://github.com/tpope/vim-pathogen)
+
   ```bash
   git clone https://github.com/codybuell/cmp-lbdb.git ~/.config/nvim/bundle/cmp-lbdb
   ```
 - native package manager
+
   ```bash
   git clone https://github.com/codybuell/cmp-lbdb.git ~/.config/nvim/pack/bundle/opt/cmp-lbdb
   ```
@@ -28,6 +31,7 @@ Use your favorite plugin manager:
 
 Usage
 -----
+
 ```lua
 -- setup with defaults (markdown and mail file types)
 require('cmp').setup({
@@ -56,3 +60,18 @@ require('cmp').setup({
   }
 })
 ```
+
+Options
+-------
+
+### filetypes (type: table)
+
+_Default:_ `{ 'mail', 'markdown' }`
+
+Sets what filetypes the completion source will be made available.
+
+### blacklist (type: table)
+
+_Default:_ `{ '.*not?.?reply.*' }`
+
+The blacklist sets what emails to exclude from the completion list. The default value will catch variations of `noreply`, `no-reply`, `do-not-reply`, and so on. [Lua pattern matching](https://www.lua.org/pil/20.2.html) can be used.
