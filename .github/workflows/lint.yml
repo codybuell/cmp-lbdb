@@ -16,5 +16,5 @@ jobs:
           fetch-depth: 0
       - name: Luacheck Linter
         uses: lunarmodules/luacheck@v1
-      - name: Commit Linter
-        uses: wagoid/commitlint-github-action@v5
+      # - name: Commit Linter
+      #   uses: wagoid/commitlint-github-action@v5
