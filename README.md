@@ -50,10 +50,17 @@ require('cmp').setup({
     -- snip...
     {
       name = 'lbdb',
-      filetypes = { 'mail', 'markdown', 'gitcommit' }
-      blacklist = {
-        'user@host.com',
-        '.*noreply.*',
+      option = {
+        filetypes = {
+          'mail',
+          'markdown',
+          'gitcommit'
+        },
+        blacklist = {
+          'user@host.com',
+          '.*noreply.*',
+        },
+        mail_header_only = true,
       },
     },
     -- snip...
@@ -75,3 +82,9 @@ Sets what filetypes the completion source will be made available.
 _Default:_ `{ '.*not?.?reply.*' }`
 
 The blacklist sets what emails to exclude from the completion list. The default value will catch variations of `noreply`, `no-reply`, `do-not-reply`, and so on. [Lua pattern matching](https://www.lua.org/pil/20.2.html) can be used.
+
+### mail_header_only (type: boolean)
+
+_Default:_ `false`
+
+If set to `true` completions will only be provided when in the email header (any line stating with To:, From:, Cc:, etc) of a buffer of `mail` filetype. All other enabled filetypes will source completions as normal.
