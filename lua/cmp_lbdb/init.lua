@@ -13,7 +13,8 @@ local full_set     = nil
 ----------------
 
 local defaults = {
-  filetypes = { 'mail', 'markdown' }
+  filetypes = { 'mail', 'markdown' },
+  mail_header_only = false,
 }
 
 --------------------
@@ -22,7 +23,6 @@ local defaults = {
 
 source.new = function()
   local self = setmetatable({}, { __index = source })
-  -- self.your_awesome_variable = 1
   return self
 end
 
@@ -31,9 +31,10 @@ function source.get_debug_name()
 end
 
 function source._validate_option(_, params)
-  local opts = vim.tbl_deep_extend('keep', { filetypes = params.filetypes }, defaults)
+  local opts = vim.tbl_deep_extend('keep', params.option, defaults)
   vim.validate({
     filetypes = { opts.filetypes, 'table' },
+    mail_header_only = { opts.mail_header_only, 'boolean' },
   })
   return opts
 end
@@ -49,9 +50,11 @@ function source.complete(self, params, callback)
         items = cmp_contacts
       })
     else
-      callback({
-        items = full_set
-      })
+      if not (vim.bo.filetype == 'mail' and opts.mail_header_only) then
+        callback({
+          items = full_set
+        })
+      end
     end
   end
 end

@@ -1,26 +1,30 @@
 local utils = {}
 
 utils.get_blacklist = function()
-    -- define a reasonable default blacklist
-    local default_blacklist = {
-        '.*not?.?reply.*'             -- variations of noreply, no-reply do-not-reply...
-    }
+  -- define a reasonable default blacklist
+  local default_blacklist = {
+    '.*not?.?reply.*'             -- variations of noreply, no-reply do-not-reply...
+  }
 
-    -- grab user defined blacklist
-    local c = require'cmp.config'.get_source_config('lbdb')
-    local user_bl
+  -- grab user defined blacklist
+  local c = require'cmp.config'.get_source_config('lbdb')
+  local user_bl
 
-    -- fail gracefully if plugin is sourced but not configured as a source in users cmp.setup
-    if c ~= nil then
-        user_bl = utils.get_paths(c, {'blacklist'})
+  -- fail gracefully if plugin is sourced but not configured as a source in users cmp.setup
+  if c ~= nil then
+    user_bl = utils.get_paths(c, {'option', 'blacklist'})
+    if user_bl == nil then
+      user_bl = utils.get_paths(c, {'blacklist'})
     end
+  end
 
-    -- return user blacklist if set, else default
-    if user_bl ~= nil then
-        return user_bl
-    else
-        return default_blacklist
-    end
+
+  -- return user blacklist if set, else default
+  if user_bl ~= nil then
+    return user_bl
+  else
+    return default_blacklist
+  end
 end
 
 utils.get_paths = function(root, paths)
