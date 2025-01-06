@@ -61,6 +61,7 @@ require('cmp').setup({
           '.*noreply.*',
         },
         mail_header_only = true,
+        name_char = "",
       },
     },
     -- snip...
@@ -88,3 +89,9 @@ The blacklist sets what emails to exclude from the completion list. The default 
 _Default:_ `false`
 
 If set to `true` completions will only be provided when in the email header (any line stating with To:, From:, Cc:, etc) of a buffer of `mail` filetype. All other enabled filetypes will source completions as normal.
+
+### name_char (type: string)
+
+_Default:_ `'`
+
+Defines character (or string) to surround the name. The default is `'` such that elements are generated as `'FirstName LastName' <email>`. 
