@@ -69,7 +69,7 @@ utils.split = function(s, sep)
   return fields
 end
 
-utils.get_contacts = function(blacklist)
+utils.get_contacts = function(blacklist, name_char)
   -- init some variables
   local contacts_email = {}
   local contacts_name  = {}
@@ -91,7 +91,7 @@ utils.get_contacts = function(blacklist)
       -- lowercase email to handle duplicates
       local email   = string.lower(fields[1])
       local name    = fields[2]
-      local mstring = "'" .. name .. "' <" .. email .. ">"
+      local mstring = name_char .. name .. name_char .. " <" .. email .. ">"
 
       -- check if email is in our blacklist
       for _,val in ipairs(blacklist) do
@@ -155,8 +155,8 @@ utils.table_concatenate = function(t1, t2)
     return t1
 end
 
-utils.build_tables = function()
-    local lbdb_email, lbdb_name = utils.get_contacts(utils.get_blacklist())
+utils.build_tables = function(opts)
+    local lbdb_email, lbdb_name = utils.get_contacts(utils.get_blacklist(), opts.name_char)
     local cmp_names    = utils.build_cmp_table(lbdb_name, 'name')
     local cmp_emails   = utils.build_cmp_table(lbdb_email, 'email')
     local cmp_contacts = utils.build_cmp_table(lbdb_email, 'mstring')

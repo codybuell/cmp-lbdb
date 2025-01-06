@@ -15,6 +15,7 @@ local full_set     = nil
 local defaults = {
   filetypes = { 'mail', 'markdown' },
   mail_header_only = false,
+  name_char = "'",
 }
 
 --------------------
@@ -35,6 +36,7 @@ function source._validate_option(_, params)
   vim.validate({
     filetypes = { opts.filetypes, 'table' },
     mail_header_only = { opts.mail_header_only, 'boolean' },
+    name_char = { opts.name_char, 'string' },
   })
   return opts
 end
@@ -43,7 +45,7 @@ function source.complete(self, params, callback)
   local opts = self:_validate_option(params)
   if utils.has_value(opts.filetypes, vim.bo.filetype) then
     if not cmp_contacts then
-      cmp_contacts, full_set = utils.build_tables()
+      cmp_contacts, full_set = utils.build_tables(opts)
     end
     if utils.in_header() then
       callback({
