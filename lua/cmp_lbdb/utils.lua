@@ -139,12 +139,24 @@ utils.build_cmp_table = function(source, completion)
 end
 
 utils.in_header = function()
-  local line = vim.api.nvim_get_current_line()
-  for _, header in pairs({ 'Bcc:', 'Cc:', 'From:', 'Reply-To:', 'To:' }) do
-    if vim.startswith(line, header) then
-      return true
+  local cursor_pos = vim.api.nvim_win_get_cursor(0)
+  local line_num = cursor_pos[1]
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+  for i = 1, line_num do
+    if lines[i] == '' then
+      return false
     end
   end
+
+  for i = line_num, 1, -1 do
+    for _, header in pairs({ 'Bcc:', 'Cc:', 'From:', 'Reply-To:', 'To:' }) do
+      if vim.startswith(lines[i], header) then
+        return true
+      end
+    end
+  end
+
   return false
 end
 
