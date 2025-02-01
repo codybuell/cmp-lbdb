@@ -15,7 +15,7 @@ local full_set     = nil
 local defaults = {
   filetypes = { 'mail', 'markdown' },
   mail_header_only = false,
-  name_char = "'",
+  use_quotes = true,
 }
 
 --------------------
@@ -36,7 +36,7 @@ function source._validate_option(_, params)
   vim.validate({
     filetypes = { opts.filetypes, 'table' },
     mail_header_only = { opts.mail_header_only, 'boolean' },
-    name_char = { opts.name_char, 'string' },
+    use_quotes = {opts.use_quotes, 'boolean'},
   })
   return opts
 end
