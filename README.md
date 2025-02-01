@@ -61,6 +61,7 @@ require('cmp').setup({
           '.*noreply.*',
         },
         mail_header_only = true,
+        use_quotes = false,
       },
     },
     -- snip...
@@ -88,3 +89,9 @@ The blacklist sets what emails to exclude from the completion list. The default 
 _Default:_ `false`
 
 If set to `true` completions will only be provided when in the email header (any line stating with To:, From:, Cc:, etc) of a buffer of `mail` filetype. All other enabled filetypes will source completions as normal.
+
+### use_quotes (type: boolean)
+
+_Default:_ `true`
+
+If set to `true`, will surround the name with double quotes such that elements are generated as `"FirstName LastName" <email>`. If set to false, it will not include quotes such that elements are generated as `FirstName LastName <email>`. Please see the [RFC 5322](https://tools.ietf.org/html/rfc5322) standard for mail header specifications. 
