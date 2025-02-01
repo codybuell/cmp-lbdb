@@ -91,7 +91,7 @@ utils.get_contacts = function(blacklist, use_quotes)
       -- lowercase email to handle duplicates
       local email   = string.lower(fields[1])
       local name    = fields[2]
-      local mstring = ""
+      local mstring
       if use_quotes then
         mstring = '"'.. name .. '" <' .. email .. '>'
       else
