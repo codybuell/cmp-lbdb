@@ -140,24 +140,27 @@ end
 
 utils.in_header = function()
   local cursor_pos = vim.api.nvim_win_get_cursor(0)
-  local line_num = cursor_pos[1]
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local line_num   = cursor_pos[1]
+  local lines      = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local header_line_num = nil
 
-  for i = 1, line_num do
-    if lines[i] == '' then
-      return false
+  for i, line in ipairs(lines) do
+    if line:match('^%s*$') == nil and
+       not vim.startswith(line, 'Bcc:') and
+       not vim.startswith(line, 'Cc:') and
+       not vim.startswith(line, 'From:') and
+       not vim.startswith(line, 'Reply-To:') and
+       not vim.startswith(line, 'To:') then
+      header_line_num = i
+      break
     end
   end
 
-  for i = line_num, 1, -1 do
-    for _, header in pairs({ 'Bcc:', 'Cc:', 'From:', 'Reply-To:', 'To:' }) do
-      if vim.startswith(lines[i], header) then
-        return true
-      end
-    end
+  if header_line_num and line_num >= header_line_num then
+    return false
+  else
+    return true
   end
-
-  return false
 end
 
 utils.table_concatenate = function(t1, t2)
