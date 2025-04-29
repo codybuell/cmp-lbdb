@@ -43,7 +43,7 @@ end
 
 function source.complete(self, params, callback)
   local opts = self:_validate_option(params)
-  if utils.has_value(opts.filetypes, vim.bo.filetype) then
+  if utils.has_filetype(opts.filetypes, vim.bo.filetype) then
     if not cmp_contacts then
       cmp_contacts, full_set = utils.build_tables(opts)
     end

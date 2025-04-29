@@ -48,6 +48,18 @@ utils.has_value = function(table, value)
   return false
 end
 
+utils.has_filetype = function(table, value)
+  -- split value on '.' to handle filetypes with multiple parts
+  local parts = utils.split(value, '.')
+  for _, part in ipairs(parts) do
+    if utils.has_value(table, part) then
+      return true
+    end
+  end
+
+  return false
+end
+
 utils.parse_meta = function(meta_raw)
   if meta_raw then
     local date = meta_raw:match('%d+-%d+-%d+ %d+:%d+')
