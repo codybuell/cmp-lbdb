@@ -52,7 +52,7 @@ function source.complete(self, params, callback)
         items = cmp_contacts
       })
     else
-      if not (vim.bo.filetype == 'mail' and opts.mail_header_only) then
+      if not (utils.has_filetype({ "mail" }, vim.bo.filetype) and opts.mail_header_only) then
         callback({
           items = full_set
         })
