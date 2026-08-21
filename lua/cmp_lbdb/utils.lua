@@ -155,29 +155,41 @@ utils.build_cmp_table = function(source, completion)
   return cmp_table
 end
 
+-- correspondent header labels that should offer contact completion
+local correspondent_headers = { 'Bcc:', 'Cc:', 'From:', 'Reply-To:', 'To:' }
+
 utils.in_header = function()
   local cursor_pos = vim.api.nvim_win_get_cursor(0)
   local line_num   = cursor_pos[1]
   local lines      = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local header_line_num = nil
+
+  local cur_header = nil
 
   for i, line in ipairs(lines) do
-    if line:match('^%s*$') == nil and
-       not vim.startswith(line, 'Bcc:') and
-       not vim.startswith(line, 'Cc:') and
-       not vim.startswith(line, 'From:') and
-       not vim.startswith(line, 'Reply-To:') and
-       not vim.startswith(line, 'To:') then
-      header_line_num = i
+    -- headers end at the first blank line
+    if line:match('^%s*$') ~= nil then
       break
+    end
+
+    if line:match('^%s') == nil then
+      -- not a continuation (folded) line, so it starts a new header;
+      -- remember it if it's one we care about, else clear cur_header
+      cur_header = nil
+      for _, label in ipairs(correspondent_headers) do
+        if vim.startswith(line, label) then
+          cur_header = label
+          break
+        end
+      end
+    end
+    -- else: indented continuation line, stays part of cur_header
+
+    if i == line_num then
+      return cur_header ~= nil
     end
   end
 
-  if header_line_num and line_num >= header_line_num then
-    return false
-  else
-    return true
-  end
+  return false
 end
 
 utils.table_concatenate = function(t1, t2)
